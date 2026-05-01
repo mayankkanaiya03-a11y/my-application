@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Directory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+        }
+        .participant-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Participant Directory</h2>
+    <div id="status">Checking data...</div>
+    <div id="directory"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cacheKey = 'sports_participants';
+            const directoryEl = document.getElementById('directory');
+            const statusEl = document.getElementById('status');
+            
+            // Dummy API used to simulate fetching participant data from a server
+            const apiURL = 'https://jsonplaceholder.typicode.com/users';
+
+            // Helper function to render the data to the DOM
+            function displayParticipants(participants, source) {
+                statusEl.innerText = `Data loaded from: ${source}`;
+                directoryEl.innerHTML = ''; // Clear loading text
+                
+                participants.forEach(participant => {
+                    const div = document.createElement('div');
+                    div.className = 'participant-card';
+                    div.innerHTML = `<strong>${participant.name}</strong><br>Email: ${participant.email}`;
+                    directoryEl.appendChild(div);
+                });
+            }
+
+            // 1. Check if data exists in localStorage
+            const cachedData = localStorage.getItem(cacheKey);
+
+            if (cachedData) {
+                // 2. Data exists: parse it and display immediately
+                const participants = JSON.parse(cachedData);
+                displayParticipants(participants, 'localStorage (Cached)');
+            } else {
+                // 3. Data missing: perform network request
+                statusEl.innerText = 'Fetching from network...';
+                
+                fetch(apiURL)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 4. Store retrieved data into localStorage
+                        localStorage.setItem(cacheKey, JSON.stringify(data));
+                        // Display the fetched data
+                        displayParticipants(data, 'Network API');
+                    })
+                    .catch(error => {
+                        statusEl.innerText = 'Failed to load data.';
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

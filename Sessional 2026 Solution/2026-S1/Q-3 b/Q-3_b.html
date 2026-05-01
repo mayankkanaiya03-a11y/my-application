@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sports Tournament Dashboard</title>
+</head>
+<body>
+
+    <button id="statusBtn" style="background-color: green; color: white; padding: 10px 20px;">Available</button>
+
+    <script>
+        const button = document.getElementById('statusBtn');
+
+        // Event handler function
+        function toggleStatus(event) {
+            // Utilize event.target to identify the source dynamically
+            const targetBtn = event.target;
+
+            // Check current label and toggle style/text
+            if (targetBtn.innerText === "Available") {
+                targetBtn.innerText = "Booked";
+                targetBtn.style.backgroundColor = "red";
+            } else {
+                targetBtn.innerText = "Available";
+                targetBtn.style.backgroundColor = "green";
+            }
+        }
+
+        // Prevent duplicate registration using removeEventListener
+        button.removeEventListener('click', toggleStatus);
+        
+        // Attach the event listener
+        button.addEventListener('click', toggleStatus);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+export const FETCH_CONTACT_BY_ID = 'FETCH_CONTACT_BY_ID';
+export const ADD_CONTACT = 'ADD_CONTACT';

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Calculator</title>
+</head>
+<body>
+    <input type="number" id="n1" placeholder="Number 1">
+    <input type="number" id="n2" placeholder="Number 2">
+
+    <div id="ops">
+        <button>+</button> <button>-</button> <button>*</button> <button>/</button>
+    </div>
+
+    Result: <h1 id="result"></h1>
+
+    <script>
+        // 4. DOM Event Handling
+        document.getElementById('ops').addEventListener('click', function(e) {
+            // Ensure we only trigger if an actual button is clicked
+            if (e.target.tagName !== 'BUTTON') return;
+
+            // Fetch and convert input values to numbers
+            let a = Number(document.getElementById('n1').value);
+            let b = Number(document.getElementById('n2').value);
+            let op = e.target.innerText;
+
+            // Perform calculation based on the button text
+            let calc;
+            if (op === '+') {
+                calc = a + b;
+            } else if (op === '-') {
+                calc = a - b;
+            } else if (op === '*') {
+                calc = a * b;
+            } else if (op === '/') {
+                calc = a / b;
+            }
+
+            // Update the DOM with the result
+            document.getElementById('result').innerText = calc;
+        });
+    </script>
+</body>
+</html>

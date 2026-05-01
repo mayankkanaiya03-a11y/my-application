@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Weather Dashboard</title>
+    <style>
+        /* Minimal styling for the requested red error message */
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Weather Dashboard</h2>
+    
+    <input type="text" id="cityInput" placeholder="Enter City Name">
+    <button id="weatherBtn">Get Weather</button>
+
+    <div id="displayArea" style="margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('weatherBtn').addEventListener('click', () => {
+            const city = document.getElementById('cityInput').value;
+            const displayArea = document.getElementById('displayArea');
+            
+            // Clear previous results
+            displayArea.innerHTML = "Fetching...";
+
+            const mockUrl = `https://api.weather.com/v1/current?city=${city}`;
+
+            fetch(mockUrl)
+                .then(response => {
+                    // Check if the response is successful (e.g., not a 404)
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Extract and display data in a formatted list
+                    displayArea.innerHTML = `
+                        <ul>
+                            <li><strong>Temperature:</strong> ${data.temperature}</li>
+                            <li><strong>Humidity:</strong> ${data.humidity}</li>
+                            <li><strong>Condition:</strong> ${data.condition}</li>
+                        </ul>
+                    `;
+                })
+                .catch(error => {
+                    // Handle 404 or network failure
+                    displayArea.innerHTML = `<p class="error">City not found. Please try again.</p>`;
+                });
+        });
+    </script>
+
+</body>
+</html>

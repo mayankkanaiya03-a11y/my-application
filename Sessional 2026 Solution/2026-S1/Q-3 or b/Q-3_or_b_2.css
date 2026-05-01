@@ -1,0 +1,17 @@
+/* Target only <h3> elements that are direct children of the scoreboard */
+/* Note: Based strictly on the prompt's wording. If <h3> is inside .team-row, it is not a direct child of #scoreboard */
+#scoreboard > h3 {
+    color: blue;
+}
+
+/* Adjacent sibling selector: margin to <p> immediately following <h3> */
+h3 + p {
+    margin-top: 10px;
+}
+
+/* ID selector: specific box model for the scoreboard */
+#scoreboard {
+    width: 500px;
+    padding: 15px;
+    border: 5px solid black;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Sports Registration</title>
+</head>
+<body>
+
+    <h2>College Sports Registration Form</h2>
+    
+    <form id="registrationForm">
+        <div id="nameContainer">
+            <label>Full Name:</label><br>
+            <input type="text" id="fullName">
+        </div><br>
+
+        <div id="phoneContainer">
+            <label>Phone Number:</label><br>
+            <input type="text" id="phone">
+        </div><br>
+
+        <div id="emailContainer">
+            <label>Email:</label><br>
+            <input type="text" id="email">
+        </div><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <div id="messageArea"></div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            // 1. Intercept the request
+            event.preventDefault();
+
+            // 2. "Clean-slate" strategy: Remove existing error messages and success messages
+            let existingErrors = document.querySelectorAll(".error-msg");
+            for (let i = 0; i < existingErrors.length; i++) {
+                existingErrors[i].remove();
+            }
+            document.getElementById("messageArea").innerHTML = ""; // clear success message
+
+            // 3. Capture input values via getElementById
+            let nameVal = document.getElementById("fullName").value;
+            let phoneVal = document.getElementById("phone").value;
+            let emailVal = document.getElementById("email").value;
+
+            let isValid = true;
+
+            // Helper function to create and attach errors
+            function showError(containerId, message) {
+                let p = document.createElement("p");
+                p.innerHTML = message;
+                p.className = "error-msg";
+                p.style.color = "red"; // Added minimal styling to differentiate errors
+                document.getElementById(containerId).appendChild(p);
+                isValid = false;
+            }
+
+            // 4. Validate each field
+            if (nameVal.trim() === "") {
+                showError("nameContainer", "Full Name cannot be empty.");
+            }
+
+            // Phone must be exactly 10 digits long and contain only numbers
+            if (phoneVal.length !== 10 || isNaN(phoneVal)) {
+                showError("phoneContainer", "Phone Number must be exactly 10 digits.");
+            }
+
+            // Email must contain '@'
+            if (!emailVal.includes("@")) {
+                showError("emailContainer", "Email must contain the '@' symbol.");
+            }
+
+            // 5. If all inputs are valid
+            if (isValid) {
+                // Log data to console
+                console.log("Registered Data - Name: " + nameVal + ", Phone: " + phoneVal + ", Email: " + emailVal);
+
+                // Clear all form fields
+                document.getElementById("registrationForm").reset();
+
+                // Append "Registration Successful!" message to the page
+                let successP = document.createElement("p");
+                successP.innerHTML = "Registration Successful!";
+                successP.style.color = "green";
+                document.getElementById("messageArea").appendChild(successP);
+            }
+        });
+    </script>
+
+</body>
+</html>
